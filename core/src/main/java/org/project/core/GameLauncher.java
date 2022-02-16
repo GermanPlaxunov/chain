@@ -1,18 +1,12 @@
 package org.project.core;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
@@ -20,21 +14,15 @@ import java.util.ArrayList;
 public class GameLauncher extends ApplicationAdapter {
     private ArrayList<ModelInstance> instances = new ArrayList<>();
 
-    private CameraInputController cameraController;
     private AssetManager assets;
-    private PerspectiveCamera camera;
-    private Environment environment;
     private ModelBatch modelBatch;
     private Boolean loading;
 
-    private ModelInstance space;
+    private Scene scene;
 
     @Override
     public void create() {
         modelBatch = new ModelBatch();
-        createEnvironment();
-        createCamera();
-        camera.update();
         createAssetManager();
         loading = true;
     }
@@ -44,15 +32,18 @@ public class GameLauncher extends ApplicationAdapter {
         if (loading && assets.update()) {
             download();
         }
-        cameraController.update();
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        modelBatch.begin(camera);
-        modelBatch.render(instances, environment);
-        if (space != null) {
-            modelBatch.render(space, environment);
+        if(scene != null) {
+            if (scene.getCamera() != null) {
+                modelBatch.begin(scene.getCamera());
+                if (scene.getInstance() != null) {
+                    scene.render(modelBatch);
+                    modelBatch.render(instances, scene.getEnvironment());
+                }
+                modelBatch.end();
+            }
         }
-        modelBatch.end();
     }
 
     @Override
@@ -81,28 +72,8 @@ public class GameLauncher extends ApplicationAdapter {
             }
         }
 
-        space = new ModelInstance(assets.get("data/spacesphere.obj", Model.class));
+        scene = new Scene(assets.get("data/spacesphere.obj", Model.class));
         loading = false;
-    }
-
-    private void createEnvironment() {
-        var color = new Color(0.8f, 0.8f, 0.8f, 1f);
-        var direction = new Vector3(-1f, -0.8f, -1f);
-        environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        environment.add(new DirectionalLight().set(color, direction));
-    }
-
-    private void createCamera() {
-        var position = new Vector3(0f, 7f, 10f);
-        var target = new Vector3(-0f, 0f, 0f);
-        camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cameraController = new CameraInputController(camera);
-        camera.position.set(position);
-        camera.lookAt(target);
-        camera.near = 1f;
-        camera.far = 300f;
-        Gdx.input.setInputProcessor(cameraController);
     }
 
     private void createAssetManager() {
