@@ -16,18 +16,23 @@ import lombok.Getter;
 @Getter
 public class Scene {
     private CameraInputController cameraController;
+    private InstancesPool instancesPool;
     private PerspectiveCamera camera;
     private Environment environment;
     private ModelInstance instance;
 
     public Scene(Model model){
         this.instance = new ModelInstance(model);
+        this.instancesPool = new InstancesPool();
         createEnvironment();
         createCamera();
     }
 
     public void render(ModelBatch batch){
         batch.render(instance, environment);
+        batch.render(instancesPool.getInstances("ship"), environment);
+        batch.render(instancesPool.getInstances("block"), environment);
+        batch.render(instancesPool.getInstances("invader"), environment);
         cameraController.update();
     }
 

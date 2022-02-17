@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 
 public class GameLauncher extends ApplicationAdapter {
-    private ArrayList<ModelInstance> instances = new ArrayList<>();
-
     private AssetManager assets;
     private ModelBatch modelBatch;
     private Boolean loading;
@@ -39,7 +37,6 @@ public class GameLauncher extends ApplicationAdapter {
                 modelBatch.begin(scene.getCamera());
                 if (scene.getInstance() != null) {
                     scene.render(modelBatch);
-                    modelBatch.render(instances, scene.getEnvironment());
                 }
                 modelBatch.end();
             }
@@ -55,24 +52,27 @@ public class GameLauncher extends ApplicationAdapter {
         var blockModel = assets.get("data/block.obj", Model.class);
         var invaderModel = assets.get("data/invader.obj", Model.class);
 
+        if(scene == null) {
+            scene = new Scene(assets.get("data/spacesphere.obj", Model.class));
+        }
+
         ship.transform.setToRotation(Vector3.Y, 180).trn(0, 0, 6f);
-        instances.add(ship);
+        scene.getInstancesPool().addInstance("ship", ship);
 
         for (var x = -5f; x <= 5f; x += 2f) {
             var block = new ModelInstance(blockModel);
             block.transform.setToTranslation(x, 0, 3f);
-            instances.add(block);
+            scene.getInstancesPool().addInstance("block", block);
         }
 
         for (var x = -10f; x <= 10f; x += 2f) {
             for (var z = -8f; z <= 0f; z += 2f) {
                 var invader = new ModelInstance(invaderModel);
                 invader.transform.setToTranslation(x, 0f, z);
-                instances.add(invader);
+                scene.getInstancesPool().addInstance("invader", invader);
             }
         }
 
-        scene = new Scene(assets.get("data/spacesphere.obj", Model.class));
         loading = false;
     }
 
