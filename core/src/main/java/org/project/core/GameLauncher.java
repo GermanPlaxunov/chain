@@ -72,7 +72,7 @@ public class GameLauncher extends ApplicationAdapter {
                 scene.getInstancesPool().addInstance("invader", invader);
             }
         }
-
+        scene.setShip(new Ship(new ModelInstance(assets.get("data/ship.obj", Model.class)), new Vector3(0, 4, 6)));
         loading = false;
     }
 

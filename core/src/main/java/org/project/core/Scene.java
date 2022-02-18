@@ -11,15 +11,17 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class Scene {
     private CameraInputController cameraController;
     private InstancesPool instancesPool;
     private PerspectiveCamera camera;
     private Environment environment;
     private ModelInstance instance;
+
+    private Ship ship;
 
     public Scene(Model model){
         this.instance = new ModelInstance(model);
@@ -30,12 +32,18 @@ public class Scene {
 
     public void render(ModelBatch batch){
         batch.render(instance, environment);
-        batch.render(instancesPool.getInstances("ship"), environment);
         batch.render(instancesPool.getInstances("block"), environment);
         batch.render(instancesPool.getInstances("invader"), environment);
+        batch.render(ship.getInstance(), environment);
+        updateScene();
         cameraController.update();
     }
 
+    private void updateScene(){
+        ship.checkMove();
+        cameraController.camera.position.set(ship.getCameraPosition());
+        camera.update();
+    }
 
     private void createEnvironment(){
         this.environment = new Environment();
