@@ -3,4 +3,7 @@
 * Render the 3D scene. (+)
 * Create Scene class. (+)
 * Create InstancesPool class. (+)
-* Implement moving logic for Ship.
+* Ship should move along z axes. (+)
+* Ship should rotate around y axes. (+)
+* Ship should move forward according to direction of model.(+)
+* Ship should move up and down.

@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.ArrayList;
-
 public class GameLauncher extends ApplicationAdapter {
     private AssetManager assets;
     private ModelBatch modelBatch;
