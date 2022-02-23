@@ -32,7 +32,6 @@ public class Scene {
 
     public void render(ModelBatch batch){
         batch.render(instance, environment);
-//        batch.render(instancesPool.getInstances("ship"), environment);
         batch.render(instancesPool.getInstances("block"), environment);
         batch.render(instancesPool.getInstances("invader"), environment);
         batch.render(ship.getInstance(), environment);

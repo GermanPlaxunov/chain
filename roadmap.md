@@ -6,4 +6,4 @@
 * Ship should move along z axes. (+)
 * Ship should rotate around y axes. (+)
 * Ship should move forward according to direction of model.(+)
-* Ship should move up and down.
+* Ship should move up and down. (+)

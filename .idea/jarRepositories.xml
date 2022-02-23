@@ -4,6 +4,11 @@
     <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
+      <option name="url" value="https://nexus.isb/repository/central-mvn-proxy/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
@@ -22,9 +27,24 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="maven-central" />
+      <option name="name" value="maven-central" />
+      <option name="url" value="https://nexus.isb/repository/central-mvn-proxy/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven-idms-nonprod" />
+      <option name="name" value="maven-idms-nonprod" />
+      <option name="url" value="https://nexus.isb/repository/idms-nonprod-mvn-hosted/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="gdx-releases" />
       <option name="name" value="gdx-releases" />
       <option name="url" value="https://oss.sonatype.org/content/repositories/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven-cvm" />
+      <option name="name" value="maven-cvm" />
+      <option name="url" value="https://nexus.isb/repository/cvm-nonprod-mvn-hosted/" />
     </remote-repository>
   </component>
 </project>
